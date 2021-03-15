@@ -38,5 +38,10 @@ namespace ChoiSerializer.ByteBuffer
         {
             return data.Skip(offset).Take(length).ToArray();
         }
+
+        public byte[] ToArray()
+        {
+            return data.ToArray();
+        }
     }
 }

@@ -4,6 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ApplicationIcon />
     <Win32Resource />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Choi Hwa Young</Authors>
+    <Version>0.2</Version>
+    <RepositoryUrl>https://github.com/chyccs/choi-serializer</RepositoryUrl>
+    <Description>Serialization library based on data location and length for the .NET platform</Description>
   </PropertyGroup>
 
 </Project>

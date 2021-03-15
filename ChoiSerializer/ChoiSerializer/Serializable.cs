@@ -74,6 +74,10 @@ namespace ChoiSerializer
                                 break;
 
                             case TypeCode.Object:
+
+                                if (item.GetValue(this) == null)
+                                    continue;
+
                                 if (item.PropertyType.IsGenericType && item.PropertyType.Name.StartsWith("List"))
                                 {
                                     var objects = (IList)item.GetValue(this);
@@ -117,7 +121,7 @@ namespace ChoiSerializer
                                 }
                                 break;
                         }
-                        //Debug.WriteLine(item.DeclaringType.Name + "." + item.Name);
+                        //Console.WriteLine(item.DeclaringType.Name + "." + item.Name);
                     }
                 }
             }

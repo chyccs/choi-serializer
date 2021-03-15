@@ -9,16 +9,12 @@ using System.Text;
 
 namespace ChoiSerializer
 {
-    public class Serializable
+    [Serializable]
+    public abstract class Serializable
     {
-        public SerializationContext Context { get; set; }
+        public abstract ISerializationContext Context { get; set; }
 
-        public Serializable(SerializationContext context)
-        {
-            Context = context;
-        }
-
-        public byte[] Serialize()
+        public void Serialize()
         {
             Type myType = GetType();
 
@@ -38,31 +34,31 @@ namespace ChoiSerializer
                         switch (Type.GetTypeCode(item.PropertyType))
                         {
                             case TypeCode.Single:
-                                Context.DataSource.PutSingle(((float)item.GetValue(this)));
+                                Context.DataSource.Put(((float)item.GetValue(this)));
                                 break;
 
                             case TypeCode.UInt16:
-                                Context.DataSource.PutUShort((ushort)item.GetValue(this));
+                                Context.DataSource.Put((ushort)item.GetValue(this));
                                 break;
 
                             case TypeCode.UInt32:
-                                Context.DataSource.PutUInt((uint)item.GetValue(this));
+                                Context.DataSource.Put((uint)item.GetValue(this));
                                 break;
 
                             case TypeCode.UInt64:
-                                Context.DataSource.PutULong((ulong)item.GetValue(this));
+                                Context.DataSource.Put((ulong)item.GetValue(this));
                                 break;
 
                             case TypeCode.Int16:
-                                Context.DataSource.PutShort((short)item.GetValue(this));
+                                Context.DataSource.Put((short)item.GetValue(this));
                                 break;
 
                             case TypeCode.Int32:
-                                Context.DataSource.PutInt((int)item.GetValue(this));
+                                Context.DataSource.Put((int)item.GetValue(this));
                                 break;
 
                             case TypeCode.Int64:
-                                Context.DataSource.PutLong((long)item.GetValue(this));
+                                Context.DataSource.Put((long)item.GetValue(this));
                                 break;
 
                             case TypeCode.Byte:
@@ -121,12 +117,10 @@ namespace ChoiSerializer
                                 }
                                 break;
                         }
-                        Debug.WriteLine(item.DeclaringType.Name + "." + item.Name);
+                        //Debug.WriteLine(item.DeclaringType.Name + "." + item.Name);
                     }
                 }
             }
-
-            return Context.DataSource.ToArray();
         }
 
         public void Deserialize()
@@ -153,43 +147,43 @@ namespace ChoiSerializer
                         switch (Type.GetTypeCode(item.PropertyType))
                         {
                             case TypeCode.Single:
-                                fieldValue = BitConverter.ToSingle(Context.DataSource.GetBytes(Math.Max(4, length)), 0);
+                                fieldValue = Context.DataSource.Get<float>(); //BitConverter.ToSingle(Context.DataSource.Get(Math.Max(4, length)), 0);
                                 break;
 
                             case TypeCode.UInt16:
-                                fieldValue = BitConverter.ToUInt16(Context.DataSource.GetBytes(Math.Max(2, length)), 0);
+                                fieldValue = Context.DataSource.Get<ushort>(); //BitConverter.ToUInt16(Context.DataSource.Get(Math.Max(2, length)), 0);
                                 break;
 
                             case TypeCode.UInt32:
-                                fieldValue =  BitConverter.ToUInt32(Context.DataSource.GetBytes(Math.Max(4, length)), 0);
+                                fieldValue = Context.DataSource.Get<uint>(); //BitConverter.ToUInt32(Context.DataSource.Get(Math.Max(4, length)), 0);
                                 break;
 
                             case TypeCode.UInt64:
-                                fieldValue = BitConverter.ToUInt64(Context.DataSource.GetBytes(Math.Max(8, length)), 0);
+                                fieldValue = Context.DataSource.Get<ulong>(); //BitConverter.ToUInt64(Context.DataSource.Get(Math.Max(8, length)), 0);
                                 break;
 
                             case TypeCode.Int16:
-                                fieldValue = BitConverter.ToInt16(Context.DataSource.GetBytes(Math.Max(2, length)), 0);
+                                fieldValue = Context.DataSource.Get<short>(); //BitConverter.ToInt16(Context.DataSource.Get(Math.Max(2, length)), 0);
                                 break;
 
                             case TypeCode.Int32:
-                                fieldValue = BitConverter.ToInt32(Context.DataSource.GetBytes(Math.Max(4, length)), 0);
+                                fieldValue = Context.DataSource.Get<int>(); //BitConverter.ToInt32(Context.DataSource.Get(Math.Max(4, length)), 0);
                                 break;
 
                             case TypeCode.Int64:
-                                fieldValue = BitConverter.ToInt64(Context.DataSource.GetBytes(Math.Max(8, length)), 0);
+                                fieldValue = Context.DataSource.Get<long>(); //BitConverter.ToInt64(Context.DataSource.Get(Math.Max(8, length)), 0);
                                 break;
 
                             case TypeCode.Byte:
-                                fieldValue = Context.DataSource.GetByte();
+                                fieldValue = Context.DataSource.Get(1)[0];
                                 break;
 
                             case TypeCode.Char:
-                                fieldValue = (char)Context.DataSource.GetByte();
+                                fieldValue = Context.DataSource.Get<char>(); //(char)Context.DataSource.Get(1)[0];
                                 break;
 
                             case TypeCode.String:
-                                fieldValue = Context.DataSource.GetString(length);
+                                fieldValue = Context.DataSource.Get<string>(length); //Context.DataSource.GetString(length);
                                 break;
 
                             case TypeCode.Object:
@@ -226,7 +220,7 @@ namespace ChoiSerializer
                                         length = FindLength(item.DeclaringType.Name, item.Name);
                                     }
 
-                                    fieldValue = length <= 0 ? null : Context.DataSource.GetBytes(length);
+                                    fieldValue = length <= 0 ? null : Context.DataSource.Get(length);
                                 }
                                 else if (item.PropertyType == typeof(object))
                                 {
@@ -270,10 +264,10 @@ namespace ChoiSerializer
                                         {
                                             length = FindLength(item.DeclaringType.Name, item.Name);
                                         }
-                                        
+
                                         try
                                         {
-                                            fieldValue = Context.DataSource.GetBytes(length);
+                                            fieldValue = Context.DataSource.Get(length);
                                         }
                                         catch
                                         {
@@ -314,33 +308,33 @@ namespace ChoiSerializer
             }
         }
 
-        public int FindLength(string type, string property)
+        private int FindLength(string type, string property)
         {
             return (int)Context.GetToDecimal(type + "." + property, "length");
         }
 
-        public int FindSize(string type, string property)
+        private int FindSize(string type, string property)
         {
             return (int)Context.GetToDecimal(type + "." + property, "size");
         }
 
-        public object GetAnnotationValue(PropertyInfo field, Type type, string property)
+        private object GetAnnotationValue(PropertyInfo field, Type type, string property)
         {
             return field.CustomAttributes.Where(att => att.AttributeType == type).FirstOrDefault().NamedArguments.Where(a => a.MemberName.Equals(property)).FirstOrDefault().TypedValue.Value;
         }
 
-        public bool IsSerializableClass(Type type)
+        public static bool IsSerializableClass(Type type)
         {
             return Attribute.GetCustomAttributes(type).ToList().Where(attr => attr is SerializableAttribute).Count() > 0;
         }
 
-        public PropertyInfo GetFieldUsingProperty(Type type, string propertyName, string propertyValue)
+        private PropertyInfo GetFieldUsingProperty(Type type, string propertyName, string propertyValue)
         {
             Type myType = GetType();
             return myType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).Where(p => (string)GetAnnotationValue(p, type, propertyName) == propertyValue).FirstOrDefault();
         }
 
-        public PropertyInfo GetPropertyInfo(string propertyName)
+        private PropertyInfo GetPropertyInfo(string propertyName)
         {
             Type myType = GetType();
             return myType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).Where(p => p.Name.Equals(propertyName)).FirstOrDefault();

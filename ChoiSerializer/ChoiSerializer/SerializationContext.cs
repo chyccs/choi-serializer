@@ -1,32 +1,32 @@
-﻿using ChoiSerializer.Support;
+﻿using ChoiSerializer.ByteBuffer;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace ChoiSerializer
 {
-    public class SerializationContext : Dictionary<string, object>, IDisposable
+    public class SerializationContext : Dictionary<string, object>, ISerializationContext
     {
-        public ByteBuffer DataSource { get; set; }
+        public IByteBuffer DataSource { get; set; }
 
         public SerializationContext()
         {
-            DataSource = new ByteBuffer();
+            DataSource = new InMemoryByteBuffer();
         }
 
-        public SerializationContext(ByteBuffer dataSource)
+        public SerializationContext(IByteBuffer dataSource)
         {
             DataSource = dataSource;
         }
 
         public SerializationContext(string filepath)
         {
-            DataSource = new ByteBuffer(File.ReadAllBytes(filepath));
+            DataSource = new InMemoryByteBuffer(File.ReadAllBytes(filepath));
         }
 
         public SerializationContext(byte[] file)
         {
-            DataSource = new ByteBuffer(file);
+            DataSource = new InMemoryByteBuffer(file);
         }
 
         public decimal GetToDecimal(string key, string suffix = "")

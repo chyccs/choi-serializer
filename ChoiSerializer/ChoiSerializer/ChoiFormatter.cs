@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using ChoiSerializer.ByteBuffer;
+using System;
+using System.IO;
 using System.Runtime.Serialization;
 
 namespace ChoiSerializer
@@ -11,14 +13,32 @@ namespace ChoiSerializer
 
         public ISurrogateSelector SurrogateSelector { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
+        private Type type;
+
+        public ChoiFormatter(Type type)
+        {
+            if (!Serializable.IsSerializableClass(type))
+                throw new SerializationException();
+
+            this.type = type;
+        }
+
         public object Deserialize(Stream serializationStream)
         {
-            throw new System.NotImplementedException();
+            using (var buffer = new StreamByteBuffer(serializationStream))
+            using (var context = new SerializationContext(buffer))
+            {
+                Serializable o = Activator.CreateInstance(type, context) as Serializable;
+                o.Deserialize();
+                return o;
+            }
         }
 
         public void Serialize(Stream serializationStream, object graph)
         {
-            throw new System.NotImplementedException();
+            if (!graph.GetType().Equals(type))
+                throw new SerializationException();
+            ((Serializable)graph).Serialize();
         }
     }
 }

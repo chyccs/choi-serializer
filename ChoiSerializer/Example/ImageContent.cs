@@ -7,15 +7,18 @@ namespace Example
     [Serializable]
     public class ImageContent : Serializable
     {
-        public ImageContent(SerializationContext context) : base(context)
+        public override ISerializationContext Context { get; set; }
+
+        public ImageContent(SerializationContext context)
         {
+            Context = context;
         }
 
         [SerializableCulumn(Index = 0, Length = 2)]
         public string ContentStart { get; set; } = "CS";
 
         [SerializableCulumn(Index = 1, Length = 100)]
-        public string Name { get; set; } 
+        public string Name { get; set; }
 
         [MappedForLength(Target = "ImageContent.Data")]
         [SerializableCulumn(Index = 2)]

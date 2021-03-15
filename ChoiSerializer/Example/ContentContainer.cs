@@ -8,8 +8,11 @@ namespace Example
     [Serializable]
     public class ContentContainer : Serializable
     {
-        public ContentContainer(SerializationContext context) : base(context)
+        public override ISerializationContext Context { get; set; }
+
+        public ContentContainer(SerializationContext context)
         {
+            Context = context;
         }
 
         [SerializableCulumn(Index = 0, Length = 2)]
@@ -17,7 +20,7 @@ namespace Example
 
         [MappedForLength(Target = "ContentContainer.Attribute")]
         [SerializableCulumn(Index = 1)]
-        public int AttributeSize { get; set; } = 16; 
+        public int AttributeSize { get; set; } = 16;
 
         [SerializableCulumn(Index = 2)]
         public byte[] Attribute { get; set; }
@@ -35,8 +38,6 @@ namespace Example
             {
                 case "IMAGE":
                     return typeof(List<ImageContent>);
-                case "SOUND":
-                    return typeof(List<SoundContent>);
                 case "DATA":
                     return typeof(byte[]);
             }

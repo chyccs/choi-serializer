@@ -14,23 +14,23 @@ namespace Example
             Context = context;
         }
 
-        [SerializableCulumn(Length = 2)]
+        [SerializableCulumn(Index = 0, Length = 2)]
         public string ContentStart { get; set; } = "CS";
 
-        [SerializableCulumn(Length = 100)]
+        [SerializableCulumn(Index = 1, Length = 100)]
         public string Name { get; set; }
 
         [MappedForLength(Target = "ImageContent.Data")]
-        [SerializableCulumn]
+        [SerializableCulumn(Index = 2)]
         public int DataSize { get; set; }
 
-        [SerializableCulumn]
+        [SerializableCulumn(Index = 3)]
         public byte[] Data { get; set; }
 
-        [SerializableCulumn]
+        [SerializableCulumn(Index = 4)]
         public short Checksum { get; set; } = 0;
 
-        [SerializableCulumn(Length = 2)]
+        [SerializableCulumn(Index = 5, Length = 2)]
         public string ContentTail { get; set; } = "CE";
     }
 }

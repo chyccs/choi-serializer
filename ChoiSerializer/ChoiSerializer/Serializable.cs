@@ -18,9 +18,8 @@ namespace ChoiSerializer
         {
             Type myType = GetType();
 
-            var prs = myType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).Count() > 0).ToList();
-            //prs.OrderBy(p => (int)p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).FirstOrDefault().NamedArguments.Where(a => a.MemberName.Equals("Index")).FirstOrDefault().TypedValue.Value).ToList();
+            var prs = myType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).Where(p => p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).Count() > 0).ToList();
+            prs.OrderBy(p => (int)p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).FirstOrDefault().NamedArguments.Where(a => a.MemberName.Equals("Index")).FirstOrDefault().TypedValue.Value).ToList();
 
             foreach (var item in prs)
             {
@@ -28,9 +27,9 @@ namespace ChoiSerializer
                 {
                     if (att.AttributeType == typeof(SerializableCulumn))
                     {
-                        var culumnDefinition = (SerializableCulumn)Attribute.GetCustomAttributes(item).ToList().Where(attr => attr is SerializableCulumn).FirstOrDefault();
+                        var culumnDefi = (SerializableCulumn)Attribute.GetCustomAttributes(item).ToList().Where(attr => attr is SerializableCulumn).FirstOrDefault();
 
-                        int length = culumnDefinition.Length;
+                        int length = culumnDefi.Length;
 
                         switch (Type.GetTypeCode(item.PropertyType))
                         {
@@ -122,7 +121,7 @@ namespace ChoiSerializer
                                 }
                                 break;
                         }
-                        Debug.WriteLine(item.DeclaringType.Name + "." + item.Name);
+                        //Console.WriteLine(item.DeclaringType.Name + "." + item.Name);
                     }
                 }
             }
@@ -132,9 +131,8 @@ namespace ChoiSerializer
         {
             Type myType = GetType();
 
-            var prs = myType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                .Where(p => p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).Count() > 0).ToList();
-            //prs.OrderBy(p => (int)p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).FirstOrDefault().NamedArguments.Where(a => a.MemberName.Equals("Index")).FirstOrDefault().TypedValue.Value).ToList();
+            var prs = myType.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public).Where(p => p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).Count() > 0).ToList();
+            prs.OrderBy(p => (int)p.CustomAttributes.Where(att => att.AttributeType == typeof(SerializableCulumn)).FirstOrDefault().NamedArguments.Where(a => a.MemberName.Equals("Index")).FirstOrDefault().TypedValue.Value).ToList();
 
             foreach (var item in prs)
             {
@@ -142,12 +140,12 @@ namespace ChoiSerializer
                 {
                     if (att.AttributeType == typeof(SerializableCulumn))
                     {
-                        var culumnDefinition = (SerializableCulumn)Attribute.GetCustomAttributes(item).ToList().Where(attr => attr is SerializableCulumn).FirstOrDefault();
+                        var culumnDefi = (SerializableCulumn)Attribute.GetCustomAttributes(item).ToList().Where(attr => attr is SerializableCulumn).FirstOrDefault();
                         //var mappedForSizeDefinition = (MappedForSize)Attribute.GetCustomAttributes(item).ToList().Where(attr => attr is MappedForSize).FirstOrDefault();
                         var mappedForLengthDefinition = (MappedForLength)Attribute.GetCustomAttributes(item).ToList().Where(attr => attr is MappedForLength).FirstOrDefault();
                         var mappedForTypeDefinition = (MappedForType)Attribute.GetCustomAttributes(item).ToList().Where(attr => attr is MappedForType).FirstOrDefault();
 
-                        int length = culumnDefinition.Length;
+                        int length = culumnDefi.Length;
 
                         object fieldValue = null;
                         switch (Type.GetTypeCode(item.PropertyType))

@@ -1,7 +1,7 @@
 [![NuGet](https://img.shields.io/nuget/v/ChoiSerializer)](https://www.nuget.org/packages/ChoiSerializer/)
 [![NuGet](https://img.shields.io/nuget/dt/ChoiSerializer)](https://www.nuget.org/packages/ChoiSerializer/)
 
-ChoiSerializer
+Choi-Serializer
 ================
 
 Serialization library based on data location and length for the .NET platform. 

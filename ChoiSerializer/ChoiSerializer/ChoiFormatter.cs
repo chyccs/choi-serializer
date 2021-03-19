@@ -1,9 +1,9 @@
-﻿using ChoiSerializer.ByteBuffer;
+﻿using Choi.ByteBuffer;
 using System;
 using System.IO;
 using System.Runtime.Serialization;
 
-namespace ChoiSerializer
+namespace Choi.Serializer
 {
     public class ChoiFormatter : IFormatter
     {

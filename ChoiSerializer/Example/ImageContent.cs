@@ -1,5 +1,5 @@
-﻿using ChoiSerializer;
-using ChoiSerializer.Annotation;
+﻿using Choi.Serializer;
+using Choi.Serializer.Annotation;
 using System;
 
 namespace Example

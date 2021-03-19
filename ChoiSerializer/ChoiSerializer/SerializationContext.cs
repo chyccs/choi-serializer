@@ -1,9 +1,9 @@
-﻿using ChoiSerializer.ByteBuffer;
+﻿using Choi.ByteBuffer;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ChoiSerializer
+namespace Choi.Serializer
 {
     public class SerializationContext : Dictionary<string, object>, ISerializationContext
     {

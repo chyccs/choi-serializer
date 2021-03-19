@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace ChoiSerializer.Annotation
+namespace Choi.Serializer.Annotation
 {
     public delegate int ValueToLengthConvertDelegate(object value);
 

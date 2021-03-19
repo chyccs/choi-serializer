@@ -1,4 +1,4 @@
-﻿namespace ChoiSerializer.Annotation
+﻿namespace Choi.Serializer.Annotation
 {
     public class SerializableCulumn : SerializerBaseAttribute
     {

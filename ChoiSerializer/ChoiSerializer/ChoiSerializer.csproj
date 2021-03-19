@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -14,10 +14,11 @@ This turns your instance into a lightweight binary file.</Description>
     <Copyright>free</Copyright>
     <PackageProjectUrl>https://github.com/chyccs/choi-serializer</PackageProjectUrl>
     <AssemblyVersion>0.1.5.0</AssemblyVersion>
+    <PackageIconUrl>https://www.nuget.org/profiles/chyccs/avatar?imageSize=256</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ChoiByteBuffer" Version="0.1.1" />
+    <PackageReference Include="ChoiByteBuffer" Version="0.1.1.1" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
-﻿using ChoiSerializer;
+﻿using Choi.Serializer;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
-using ChoiSerializer.ByteBuffer;
+using Choi.ByteBuffer;
 
 namespace Example
 {

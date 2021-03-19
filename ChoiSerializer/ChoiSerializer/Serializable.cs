@@ -1,4 +1,4 @@
-﻿using ChoiSerializer.Annotation;
+﻿using Choi.Serializer.Annotation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace ChoiSerializer
+namespace Choi.Serializer
 {
     [Serializable]
     public abstract class Serializable

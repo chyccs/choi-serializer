@@ -1,7 +1,7 @@
-﻿using ChoiSerializer.ByteBuffer;
+﻿using Choi.ByteBuffer;
 using System;
 
-namespace ChoiSerializer
+namespace Choi.Serializer
 {
     public interface ISerializationContext : IDisposable
     {

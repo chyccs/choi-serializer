@@ -1,13 +1,21 @@
 [![NuGet](https://img.shields.io/nuget/v/ChoiSerializer)](https://www.nuget.org/packages/ChoiSerializer/)
 [![NuGet](https://img.shields.io/nuget/dt/ChoiSerializer)](https://www.nuget.org/packages/ChoiSerializer/)
 
-Choi-Serializer
+ChoiSerializer
 ================
 
 Serialization library based on data location and length for the .NET platform. 
 This turns your instance into a lightweight binary file.
 
 ## Usage ##
+
+### Using SDK library ###
+
+Just install package in the Nuget
+
+    Install-Package ChoiSerializer
+    
+Let's getting started using the library
 
 ### Create model class ###
 
